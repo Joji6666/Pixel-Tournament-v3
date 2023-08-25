@@ -11,7 +11,8 @@
     "preview": "yarn copy && yarn electron",
     "app:dir": "electron-builder --dir",
     "app:dist": "electron-builder",
-    "build": "yarn copy && yarn app:dist"
+    "build": "yarn copy && yarn app:dist",
+    "build-win": "electron-builder --win portable --x64"
   },
   "devDependencies": {
     "electron": "^21.0.0",

@@ -12,7 +12,7 @@ export default class TestScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
-  client = new Client("ws://localhost:2567");
+  client = new Client("ws://192.168.1.21");
   room: Room;
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -57,15 +57,11 @@ export default class TestScene extends Phaser.Scene {
       this.data.set("player", entity);
       this.data.set("playerMoveState", "front");
 
-      // keep a reference of it on `playerEntities`
       this.playerEntities[sessionId] = entity;
 
       if (sessionId === this.room.sessionId) {
-        // this is the current player!
-        // (we are going to treat it differently during the update loop)
         this.currentPlayer = entity;
 
-        // remoteRef is being used for debug only
         this.remoteRef = this.add.rectangle(0, 0, entity.width, entity.height);
         this.remoteRef.setStrokeStyle(1, 0xff0000);
 
@@ -74,8 +70,6 @@ export default class TestScene extends Phaser.Scene {
           this.remoteRef.y = player.y;
         });
       } else {
-        // all remote players are here!
-        // (same as before, we are going to interpolate remote players)
         player.onChange(() => {
           entity.setData("serverX", player.x);
           entity.setData("serverY", player.y);

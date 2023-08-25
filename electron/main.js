@@ -6,8 +6,7 @@ require("@electron/remote/main").initialize();
 
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
+const isDevelopment = process.env.NODE_ENV !== "production";
 
 const createWindow = () => {
   // Create the browser window.
@@ -15,10 +14,11 @@ const createWindow = () => {
     width: 1920,
     height: 1080,
     webPreferences: {
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      nodeIntegration: true,
+      contextIsolation: false,
       enableRemoteModule: true,
       preload: path.join(__dirname, "preload.js"),
+      webSecurity: false,
     },
   });
 
@@ -26,11 +26,15 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   //mainWindow.loadFile(__dirname, "./app/index.html")
-  if (!isDevelopment) mainWindow.loadURL('file://' + path.join(__dirname, '..') + '/electron/app/index.html');
-  else mainWindow.loadURL('http://localhost:3000');
+  // if (!isDevelopment)
+  mainWindow.loadFile("app/index.html");
+  // mainWindow.loadURL(
+  //   "file://" + path.join(__dirname, "..") + "/electron/app/index.html"
+  // );
+  // else mainWindow.loadURL("http://localhost:3000");
 
   // Open the DevTools.
-  if (isDevelopment) mainWindow.webContents.openDevTools()
+  // if (isDevelopment) mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished

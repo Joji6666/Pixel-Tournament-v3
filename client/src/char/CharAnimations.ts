@@ -101,7 +101,7 @@ export default class CharAnimations {
 
       frames: scene.anims.generateFrameNumbers(`char_front_run`, {
         start: 0,
-        end: 1,
+        end: 7,
       }),
 
       frameRate: 30,
@@ -113,7 +113,7 @@ export default class CharAnimations {
 
       frames: scene.anims.generateFrameNumbers(`char_back_run`, {
         start: 0,
-        end: 1,
+        end: 7,
       }),
 
       frameRate: 30,
@@ -125,7 +125,7 @@ export default class CharAnimations {
 
       frames: scene.anims.generateFrameNumbers(`char_right_run`, {
         start: 0,
-        end: 1,
+        end: 7,
       }),
 
       frameRate: 30,
@@ -137,7 +137,7 @@ export default class CharAnimations {
 
       frames: scene.anims.generateFrameNumbers(`char_left_run`, {
         start: 0,
-        end: 1,
+        end: 7,
       }),
 
       frameRate: 30,

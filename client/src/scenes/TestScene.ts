@@ -12,7 +12,7 @@ export default class TestScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
-  client = new Client("ws://192.168.1.21");
+  client = new Client("ws://192.168.0.151");
   room: Room;
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -26,6 +26,8 @@ export default class TestScene extends Phaser.Scene {
     rightUp: false,
     upUp: false,
     downUp: false,
+    shiftDown: false,
+    shiftUp: false,
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -38,6 +40,19 @@ export default class TestScene extends Phaser.Scene {
   }
 
   async create() {
+    this.input.keyboard.on("keydown-SHIFT", () => {
+      if (!this.inputPayload.shiftDown) {
+        this.inputPayload.shiftDown = true;
+        this.inputPayload.shiftUp = false;
+
+        return;
+      }
+      if (this.inputPayload.shiftDown) {
+        this.inputPayload.shiftDown = false;
+        this.inputPayload.shiftUp = true;
+      }
+    });
+
     console.log("Joining room...");
 
     try {
@@ -49,7 +64,6 @@ export default class TestScene extends Phaser.Scene {
 
     // listen for new players
     this.room.state.players.onAdd((player, sessionId) => {
-      console.log(player, "player");
       const entity = this.physics.add
         .sprite(player.x, player.y, `char_front`)
         .setName("player")
@@ -61,19 +75,12 @@ export default class TestScene extends Phaser.Scene {
 
       if (sessionId === this.room.sessionId) {
         this.currentPlayer = entity;
-
-        this.remoteRef = this.add.rectangle(0, 0, entity.width, entity.height);
-        this.remoteRef.setStrokeStyle(1, 0xff0000);
-
-        player.onChange(() => {
-          this.remoteRef.x = player.x;
-          this.remoteRef.y = player.y;
-        });
       } else {
         player.onChange(() => {
           entity.setData("serverX", player.x);
           entity.setData("serverY", player.y);
           entity.setData("serverMoveState", player.moveState);
+          entity.setData("serverIsRunOn", player.isRunOn);
         });
       }
     });
@@ -111,9 +118,22 @@ export default class TestScene extends Phaser.Scene {
     const isRightPressed = this.cursorKeys.right.isDown;
     const isUpPressed = this.cursorKeys.up.isDown;
     const isDownPressed = this.cursorKeys.down.isDown;
+
     if (isLeftPressed) {
-      this.currentPlayer.x -= velocity;
-      this.currentPlayer.anims.play("char_left_walk", true);
+      if (this.inputPayload.shiftDown) {
+        if (!this.inputPayload.down && !this.inputPayload.up) {
+          this.currentPlayer.anims.play("char_left_run", true);
+        }
+
+        this.currentPlayer.x -= velocity + 2;
+      }
+
+      if (!this.inputPayload.shiftDown) {
+        this.currentPlayer.x -= velocity;
+        if (!this.inputPayload.down && !this.inputPayload.up) {
+          this.currentPlayer.anims.play("char_left_walk", true);
+        }
+      }
       wasLeftPressed = true;
       this.inputPayload.leftUp = false;
       this.inputPayload.rightUp = false;
@@ -126,8 +146,21 @@ export default class TestScene extends Phaser.Scene {
       wasLeftPressed = false;
     }
     if (isRightPressed) {
-      this.currentPlayer.x += velocity;
-      this.currentPlayer.anims.play("char_right_walk", true);
+      if (this.inputPayload.shiftDown) {
+        if (!this.inputPayload.down && !this.inputPayload.up) {
+          this.currentPlayer.anims.play("char_right_run", true);
+        }
+
+        this.currentPlayer.x += velocity + 2;
+      }
+
+      if (!this.inputPayload.shiftDown) {
+        if (!this.inputPayload.down && !this.inputPayload.up) {
+          this.currentPlayer.anims.play("char_right_walk", true);
+        }
+
+        this.currentPlayer.x += velocity;
+      }
       wasRightPressed = true;
       this.inputPayload.rightUp = false;
       this.inputPayload.leftUp = false;
@@ -139,9 +172,17 @@ export default class TestScene extends Phaser.Scene {
 
       wasRightPressed = false;
     }
+
     if (isUpPressed) {
-      this.currentPlayer.y -= velocity;
-      this.currentPlayer.anims.play("char_back_walk", true);
+      if (this.inputPayload.shiftDown) {
+        this.currentPlayer.anims.play("char_back_run", true);
+        this.currentPlayer.y -= velocity + 2;
+      }
+
+      if (!this.inputPayload.shiftDown) {
+        this.currentPlayer.y -= velocity;
+        this.currentPlayer.anims.play("char_back_walk", true);
+      }
       this.inputPayload.upUp = false;
       this.inputPayload.rightUp = false;
       this.inputPayload.leftUp = false;
@@ -154,8 +195,15 @@ export default class TestScene extends Phaser.Scene {
       wasUpPressed = false;
     }
     if (isDownPressed) {
-      this.currentPlayer.y += velocity;
-      this.currentPlayer.anims.play("char_front_walk", true);
+      if (this.inputPayload.shiftDown) {
+        this.currentPlayer.anims.play("char_front_run", true);
+        this.currentPlayer.y += velocity + 2;
+      }
+
+      if (!this.inputPayload.shiftDown) {
+        this.currentPlayer.y += velocity;
+        this.currentPlayer.anims.play("char_front_walk", true);
+      }
       this.inputPayload.downUp = false;
       this.inputPayload.rightUp = false;
       this.inputPayload.upUp = false;
@@ -180,7 +228,8 @@ export default class TestScene extends Phaser.Scene {
 
       // interpolate all other player entities
       const entity = this.playerEntities[sessionId];
-      const { serverX, serverY, serverMoveState } = entity.data.values;
+      const { serverX, serverY, serverMoveState, serverIsRunOn } =
+        entity.data.values;
 
       entity.x = Phaser.Math.Linear(entity.x, serverX, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, serverY, 0.2);

@@ -4,6 +4,7 @@ import CharAnimations from "../char/CharAnimations";
 
 import { Client, Room } from "colyseus.js";
 import { CharInputEvents } from "../addons/CharInputEvents";
+import Physics from "../addons/Physics";
 
 export default class TestScene extends Phaser.Scene {
   constructor() {
@@ -25,6 +26,7 @@ export default class TestScene extends Phaser.Scene {
     downUp: false,
     shiftDown: false,
     shiftUp: false,
+    collider: false,
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -37,6 +39,7 @@ export default class TestScene extends Phaser.Scene {
   }
 
   async create() {
+    this.data.set("velocity", 2);
     this.input.keyboard.on("keydown-SHIFT", () => {
       if (!this.inputPayload.shiftDown) {
         this.inputPayload.shiftDown = true;
@@ -59,12 +62,21 @@ export default class TestScene extends Phaser.Scene {
       console.error(e);
     }
 
+    const players = this.physics.add.group({});
+    this.data.set("players", players);
     // listen for new players
     this.room.state.players.onAdd((player, sessionId) => {
-      const entity = this.physics.add
-        .sprite(player.x, player.y, `char_front`)
-        .setName("player")
+      const entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody = players
+        .create(player.x, player.y, `char_front`)
         .setScale(2);
+      entity.body.setSize(28, 35);
+      entity.body.setOffset(17, 12);
+      entity.body.immovable = true;
+      entity.setCollideWorldBounds(true);
+      // const entity = this.physics.add
+      //   .sprite(player.x, player.y, `char_front`)
+      //   .setName("player")
+      //   .setScale(2);
       this.data.set("player", entity);
       this.data.set("playerMoveState", "front");
 
@@ -72,6 +84,17 @@ export default class TestScene extends Phaser.Scene {
 
       if (sessionId === this.room.sessionId) {
         this.currentPlayer = entity;
+
+        this.remoteRef = this.add.rectangle(0, 0, entity.width, entity.height);
+        this.remoteRef.setStrokeStyle(1, 0xff0000);
+
+        player.onChange(() => {
+          console.log("work");
+          this.remoteRef.x = player.x;
+          this.remoteRef.y = player.y;
+        });
+
+        new Physics(this);
       } else {
         player.onChange(() => {
           entity.setData("serverX", player.x);

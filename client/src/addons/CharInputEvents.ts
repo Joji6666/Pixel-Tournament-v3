@@ -4,215 +4,287 @@ let wasUpPressed = false;
 let wasDownPressed = false;
 
 export class CharInputEvents {
-  constructor(scene: any) {
+  constructor(
+    scene: Phaser.Scene,
+    inputPayload,
+    cursorKeys,
+    room,
+    currentPlayer,
+    playerEntities
+  ) {
     const velocity = 2;
     scene.data.set("velocity", 2);
 
-    const testVelocity = scene.data.get("velocity");
     const isColliderPlayer = scene.data.get("isColliderPlayer");
     const playerMoveState = scene.data.get("playerMoveState");
     const beforePlayerMoveState = scene.data.get("beforePlayerMoveState");
-    scene.inputPayload.left = scene.cursorKeys.left.isDown;
-    scene.inputPayload.right = scene.cursorKeys.right.isDown;
-    scene.inputPayload.up = scene.cursorKeys.up.isDown;
-    scene.inputPayload.down = scene.cursorKeys.down.isDown;
+    const colliderSide = scene.data.get("colliderSide");
+    const diagonalColliderSide = scene.data.get("diagonalColliderSide");
+    const colliderDoneSide = scene.data.get("colliderDoneSide");
 
-    scene.room.send("input", scene.inputPayload);
+    inputPayload.left = cursorKeys.left.isDown;
+    inputPayload.right = cursorKeys.right.isDown;
+    inputPayload.up = cursorKeys.up.isDown;
+    inputPayload.down = cursorKeys.down.isDown;
 
-    const isLeftPressed = scene.cursorKeys.left.isDown;
-    const isRightPressed = scene.cursorKeys.right.isDown;
-    const isUpPressed = scene.cursorKeys.up.isDown;
-    const isDownPressed = scene.cursorKeys.down.isDown;
+    room.send("input", inputPayload);
+
+    const isLeftPressed = cursorKeys.left.isDown;
+    const isRightPressed = cursorKeys.right.isDown;
+    const isUpPressed = cursorKeys.up.isDown;
+    const isDownPressed = cursorKeys.down.isDown;
+
+    // collider
+
+    if (isColliderPlayer) {
+      if (isLeftPressed && isUpPressed) {
+        if (colliderSide === "left") {
+          currentPlayer.x -= 0;
+          currentPlayer.y -= velocity;
+        } else {
+          currentPlayer.x -= velocity;
+          currentPlayer.y -= 0;
+        }
+
+        scene.data.set("diagonalColliderSide", "left_up");
+      }
+      if (isRightPressed && isUpPressed) {
+        if (colliderSide === "right") {
+          currentPlayer.x += 0;
+          currentPlayer.y -= velocity;
+        } else {
+          currentPlayer.x += velocity;
+          currentPlayer.y -= 0;
+        }
+        scene.data.set("diagonalColliderSide", "left_up");
+      }
+      if (isLeftPressed && isDownPressed) {
+        if (colliderSide === "left") {
+          currentPlayer.x -= 0;
+          currentPlayer.y += velocity;
+        } else {
+          currentPlayer.x -= velocity;
+          currentPlayer.y -= 0;
+        }
+        scene.data.set("diagonalColliderSide", "left_down");
+      }
+      if (isRightPressed && isDownPressed) {
+        if (colliderSide === "right") {
+          currentPlayer.x += 0;
+          currentPlayer.y += velocity;
+        } else {
+          currentPlayer.x += velocity;
+          currentPlayer.y -= 0;
+        }
+        scene.data.set("diagonalColliderSide", "right_down");
+      }
+
+      if (isLeftPressed && !isUpPressed && !isDownPressed) {
+        if (beforePlayerMoveState !== ("left_move" || "left_idle")) {
+          currentPlayer.x -= velocity;
+          inputPayload.collider = false;
+          scene.data.set("isColliderPlayer", false);
+        }
+
+        if (playerMoveState === "left_move") {
+          scene.data.set("colliderSide", "left");
+        }
+      }
+      if (isRightPressed && !isUpPressed && !isDownPressed) {
+        if (beforePlayerMoveState !== ("right_move" || "right_idle")) {
+          currentPlayer.x += velocity;
+          inputPayload.collider = false;
+          scene.data.set("isColliderPlayer", false);
+        }
+
+        if (playerMoveState === "right_move") {
+          scene.data.set("colliderSide", "right");
+        }
+      }
+      if (isUpPressed && !isLeftPressed && !isRightPressed) {
+        if (beforePlayerMoveState !== ("back_move" || "back_idle")) {
+          currentPlayer.y -= velocity;
+          inputPayload.collider = false;
+          scene.data.set("isColliderPlayer", false);
+        }
+
+        if (playerMoveState === "front_move") {
+          scene.data.set("colliderSide", "back");
+        }
+
+        if (
+          colliderSide === ("left" || "right") &&
+          colliderDoneSide !== "back"
+        ) {
+          currentPlayer.y -= velocity;
+          inputPayload.collider = false;
+          scene.data.set("isColliderPlayer", false);
+        }
+      }
+      if (isDownPressed && !isLeftPressed && !isRightPressed) {
+        // &&
+        // diagonalColliderSide !== ("left_down" || "right_down")
+        if (beforePlayerMoveState !== ("front_move" || "front_idle")) {
+          currentPlayer.y += velocity;
+          inputPayload.collider = false;
+          scene.data.set("isColliderPlayer", false);
+        }
+        if (playerMoveState === "back_move") {
+          scene.data.set("colliderSide", "front");
+        }
+
+        if (
+          colliderSide === ("left" || "right") &&
+          colliderDoneSide !== "front"
+        ) {
+          console.log(colliderSide, "side");
+          currentPlayer.y += velocity;
+          inputPayload.collider = false;
+          scene.data.set("isColliderPlayer", false);
+        }
+      }
+    }
+
+    // not collider
 
     if (isLeftPressed) {
-      if (isColliderPlayer && beforePlayerMoveState !== "left_move") {
-        scene.data.set("isColliderPlayer", false);
-        scene.inputPayload.collider = false;
-      }
-
-      if (scene.inputPayload.shiftDown) {
-        if (!scene.inputPayload.down && !scene.inputPayload.up) {
-          scene.currentPlayer.anims.play("char_left_run", true);
+      if (inputPayload.shiftDown) {
+        if (!inputPayload.down && !inputPayload.up) {
+          currentPlayer.anims.play("char_left_run", true);
         }
 
-        if (isColliderPlayer && playerMoveState === "left_move") {
-          scene.currentPlayer.x -= 0;
-        } else {
-          scene.currentPlayer.x -= velocity + 2;
+        if (!isColliderPlayer) {
+          currentPlayer.x -= velocity + 2;
         }
       }
 
-      if (!scene.inputPayload.shiftDown) {
-        if (isColliderPlayer && playerMoveState === "left_move") {
-          scene.currentPlayer.x -= 0;
-        } else {
-          scene.currentPlayer.x -= velocity;
+      if (!inputPayload.shiftDown) {
+        if (!isColliderPlayer) {
+          currentPlayer.x -= velocity;
+          scene.data.set("colliderDoneSide", "left");
         }
 
-        if (!scene.inputPayload.down && !scene.inputPayload.up) {
-          scene.currentPlayer.anims.play("char_left_walk", true);
+        if (!inputPayload.down && !inputPayload.up) {
+          currentPlayer.anims.play("char_left_walk", true);
         }
       }
       scene.data.set("playerMoveState", "left_move");
       wasLeftPressed = true;
-      scene.inputPayload.leftUp = false;
-      scene.inputPayload.rightUp = false;
-      scene.inputPayload.upUp = false;
-      scene.inputPayload.downUp = false;
+      inputPayload.leftUp = false;
+      inputPayload.rightUp = false;
+      inputPayload.upUp = false;
+      inputPayload.downUp = false;
     } else if (wasLeftPressed) {
-      scene.currentPlayer.anims.play("char_left", true);
-      scene.inputPayload.leftUp = true;
+      currentPlayer.anims.play("char_left", true);
+      inputPayload.leftUp = true;
       scene.data.set("playerMoveState", "left_idle");
       wasLeftPressed = false;
-      scene.data.set("isColliderPlayer", false);
-      scene.inputPayload.collider = false;
     }
+
     if (isRightPressed) {
-      if (isColliderPlayer && beforePlayerMoveState !== "right_move") {
-        scene.data.set("isColliderPlayer", false);
-        scene.inputPayload.collider = false;
-      }
-
-      if (scene.inputPayload.shiftDown) {
-        if (!scene.inputPayload.down && !scene.inputPayload.up) {
-          scene.currentPlayer.anims.play("char_right_run", true);
+      if (inputPayload.shiftDown) {
+        if (!inputPayload.down && !inputPayload.up) {
+          currentPlayer.anims.play("char_right_run", true);
         }
 
-        if (isColliderPlayer && playerMoveState === "right_move") {
-          scene.currentPlayer.x -= 0;
-        } else {
-          scene.currentPlayer.x += velocity + 2;
+        if (!isColliderPlayer) {
+          currentPlayer.x += velocity + 2;
         }
       }
 
-      if (!scene.inputPayload.shiftDown) {
-        if (isColliderPlayer && playerMoveState === "right_move") {
-          scene.currentPlayer.x -= 0;
-        } else {
-          scene.currentPlayer.x += velocity;
+      if (!inputPayload.shiftDown) {
+        if (!isColliderPlayer) {
+          currentPlayer.x += velocity;
+          scene.data.set("colliderDoneSide", "right");
         }
 
-        if (!scene.inputPayload.down && !scene.inputPayload.up) {
-          scene.currentPlayer.anims.play("char_right_walk", true);
+        if (!inputPayload.down && !inputPayload.up) {
+          currentPlayer.anims.play("char_right_walk", true);
         }
       }
       wasRightPressed = true;
-      scene.inputPayload.rightUp = false;
-      scene.inputPayload.leftUp = false;
-      scene.inputPayload.upUp = false;
-      scene.inputPayload.downUp = false;
+      inputPayload.rightUp = false;
+      inputPayload.leftUp = false;
+      inputPayload.upUp = false;
+      inputPayload.downUp = false;
       scene.data.set("playerMoveState", "right_move");
     } else if (wasRightPressed) {
-      scene.currentPlayer.anims.play("char_right", true);
-      scene.inputPayload.rightUp = true;
+      currentPlayer.anims.play("char_right", true);
+      inputPayload.rightUp = true;
       scene.data.set("playerMoveState", "right_idle");
       wasRightPressed = false;
-      scene.data.set("isColliderPlayer", false);
-      scene.inputPayload.collider = false;
     }
 
     if (isUpPressed) {
-      if (isColliderPlayer && beforePlayerMoveState !== "back_move") {
-        scene.data.set("isColliderPlayer", false);
-        scene.inputPayload.collider = false;
-      }
-      if (scene.inputPayload.shiftDown) {
-        scene.currentPlayer.anims.play("char_back_run", true);
+      if (inputPayload.shiftDown) {
+        currentPlayer.anims.play("char_back_run", true);
 
-        if (isColliderPlayer && playerMoveState === "back_move") {
-          if (isLeftPressed || isRightPressed) {
-            scene.currentPlayer.y -= velocity + 2;
-          } else {
-            scene.currentPlayer.y -= 0;
-          }
-        } else {
-          scene.currentPlayer.y -= velocity + 2;
+        if (!isColliderPlayer) {
+          currentPlayer.y -= velocity + 2;
         }
       }
 
-      if (!scene.inputPayload.shiftDown) {
-        if (isColliderPlayer && playerMoveState === "back_move") {
-          if (isLeftPressed || isRightPressed) {
-            scene.currentPlayer.y -= velocity;
-          } else {
-            scene.currentPlayer.y -= 0;
-          }
-        } else {
-          scene.currentPlayer.y -= velocity;
+      if (!inputPayload.shiftDown) {
+        if (!isColliderPlayer) {
+          currentPlayer.y -= velocity;
+          scene.data.set("colliderDoneSide", "back");
         }
-        scene.currentPlayer.anims.play("char_back_walk", true);
+        currentPlayer.anims.play("char_back_walk", true);
       }
-      scene.inputPayload.upUp = false;
-      scene.inputPayload.rightUp = false;
-      scene.inputPayload.leftUp = false;
-      scene.inputPayload.downUp = false;
+      inputPayload.upUp = false;
+      inputPayload.rightUp = false;
+      inputPayload.leftUp = false;
+      inputPayload.downUp = false;
       scene.data.set("playerMoveState", "back_move");
       wasUpPressed = true;
     } else if (wasUpPressed) {
-      scene.currentPlayer.anims.play("char_back", true);
-      scene.inputPayload.upUp = true;
+      currentPlayer.anims.play("char_back", true);
+      inputPayload.upUp = true;
       scene.data.set("playerMoveState", "back_idle");
       wasUpPressed = false;
-      scene.data.set("isColliderPlayer", false);
-      scene.inputPayload.collider = false;
     }
     if (isDownPressed) {
-      if (isColliderPlayer && beforePlayerMoveState !== "front_move") {
-        scene.data.set("isColliderPlayer", false);
-        scene.inputPayload.collider = false;
-      }
-      if (scene.inputPayload.shiftDown) {
-        scene.currentPlayer.anims.play("char_front_run", true);
-        if (isColliderPlayer && playerMoveState === "front_move") {
-          if (isLeftPressed || isRightPressed) {
-            scene.currentPlayer.y += velocity + 2;
-          } else {
-            scene.currentPlayer.y -= 0;
-          }
-        } else {
-          scene.currentPlayer.y += velocity + 2;
+      if (inputPayload.shiftDown) {
+        currentPlayer.anims.play("char_front_run", true);
+
+        if (!isColliderPlayer) {
+          currentPlayer.y += velocity + 2;
         }
       }
 
-      if (!scene.inputPayload.shiftDown) {
-        if (isColliderPlayer && playerMoveState === "front_move") {
-          if (isLeftPressed || isRightPressed) {
-            scene.currentPlayer.y += velocity;
-          } else {
-            scene.currentPlayer.y -= 0;
-          }
-        } else {
-          scene.currentPlayer.y += velocity;
+      if (!inputPayload.shiftDown) {
+        if (!isColliderPlayer) {
+          currentPlayer.y += velocity;
+          scene.data.set("colliderDoneSide", "front");
         }
-        scene.currentPlayer.anims.play("char_front_walk", true);
+        currentPlayer.anims.play("char_front_walk", true);
       }
-      scene.inputPayload.downUp = false;
-      scene.inputPayload.rightUp = false;
-      scene.inputPayload.upUp = false;
-      scene.inputPayload.leftUp = false;
+      inputPayload.downUp = false;
+      inputPayload.rightUp = false;
+      inputPayload.upUp = false;
+      inputPayload.leftUp = false;
       scene.data.set("playerMoveState", "front_move");
       wasDownPressed = true;
     } else if (wasDownPressed) {
-      scene.currentPlayer.anims.play("char_front", true);
-      scene.inputPayload.downUp = true;
+      currentPlayer.anims.play("char_front", true);
+      inputPayload.downUp = true;
       scene.data.set("playerMoveState", "front_idle");
       wasDownPressed = false;
-      scene.data.set("isColliderPlayer", false);
-      scene.inputPayload.collider = false;
     }
+
     wasLeftPressed = isLeftPressed;
     wasRightPressed = isRightPressed;
     wasUpPressed = isUpPressed;
     wasDownPressed = isDownPressed;
 
-    for (let sessionId in scene.playerEntities) {
+    for (let sessionId in playerEntities) {
       // do not interpolate the current player
-      if (sessionId === scene.room.sessionId) {
+      if (sessionId === room.sessionId) {
         continue;
       }
 
       // interpolate all other player entities
-      const entity = scene.playerEntities[sessionId];
+      const entity = playerEntities[sessionId];
       const { serverX, serverY, serverMoveState, serverIsRunOn } =
         entity.data.values;
 

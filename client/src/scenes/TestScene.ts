@@ -5,6 +5,10 @@ import CharAnimations from "../char/CharAnimations";
 import { Client, Room } from "colyseus.js";
 import { CharInputEvents } from "../addons/CharInputEvents";
 import Physics from "../addons/Physics";
+import {
+  CurrentPlayerType,
+  InputPayloadInterface,
+} from "../interface/testSceneInterface";
 
 export default class TestScene extends Phaser.Scene {
   constructor() {
@@ -15,7 +19,7 @@ export default class TestScene extends Phaser.Scene {
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   } = {};
-  inputPayload = {
+  inputPayload: InputPayloadInterface = {
     left: false,
     right: false,
     up: false,
@@ -30,7 +34,7 @@ export default class TestScene extends Phaser.Scene {
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-  currentPlayer: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  currentPlayer: CurrentPlayerType;
   remoteRef: Phaser.GameObjects.Rectangle;
 
   preload() {
@@ -89,7 +93,6 @@ export default class TestScene extends Phaser.Scene {
         this.remoteRef.setStrokeStyle(1, 0xff0000);
 
         player.onChange(() => {
-          console.log("work");
           this.remoteRef.x = player.x;
           this.remoteRef.y = player.y;
         });
@@ -125,6 +128,13 @@ export default class TestScene extends Phaser.Scene {
       return;
     }
 
-    new CharInputEvents(this);
+    new CharInputEvents(
+      this,
+      this.inputPayload,
+      this.cursorKeys,
+      this.room,
+      this.currentPlayer,
+      this.playerEntities
+    );
   }
 }

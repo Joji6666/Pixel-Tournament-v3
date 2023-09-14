@@ -7,7 +7,6 @@ export default class Physics {
       player,
       () => {
         const playerMoveState = scene.data.get("playerMoveState");
-        scene.data.set("velocity", 0);
         scene.data.set("isColliderPlayer", true);
         scene.data.set("beforePlayerMoveState", playerMoveState);
         scene.inputPayload.collider = true;

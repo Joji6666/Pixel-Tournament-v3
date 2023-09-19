@@ -21,6 +21,7 @@ export class CharInputEvents {
     const colliderSide = scene.data.get("colliderSide");
     const diagonalColliderSide = scene.data.get("diagonalColliderSide");
     const colliderDoneSide = scene.data.get("colliderDoneSide");
+    const players = scene.data.get("players");
 
     inputPayload.left = cursorKeys.left.isDown;
     inputPayload.right = cursorKeys.right.isDown;
@@ -34,11 +35,21 @@ export class CharInputEvents {
     const isUpPressed = cursorKeys.up.isDown;
     const isDownPressed = cursorKeys.down.isDown;
 
+    if (!scene.physics.overlap(players, currentPlayer)) {
+      scene.data.set("isColliderPlayer", false);
+      inputPayload.collider = false;
+      scene.data.set("colliderSide", "");
+    }
     // collider
 
     if (isColliderPlayer) {
       if (isLeftPressed && isUpPressed) {
-        if (colliderSide === "left") {
+        if (colliderSide === "right") {
+          currentPlayer.x -= 0;
+          currentPlayer.y -= velocity;
+        }
+
+        if (colliderSide === "front") {
           currentPlayer.x -= 0;
           currentPlayer.y -= velocity;
         } else {
@@ -49,7 +60,11 @@ export class CharInputEvents {
         scene.data.set("diagonalColliderSide", "left_up");
       }
       if (isRightPressed && isUpPressed) {
-        if (colliderSide === "right") {
+        if (colliderSide === "left") {
+          currentPlayer.x += 0;
+          currentPlayer.y -= velocity;
+        }
+        if (colliderSide === "front") {
           currentPlayer.x += 0;
           currentPlayer.y -= velocity;
         } else {
@@ -59,7 +74,11 @@ export class CharInputEvents {
         scene.data.set("diagonalColliderSide", "left_up");
       }
       if (isLeftPressed && isDownPressed) {
-        if (colliderSide === "left") {
+        if (colliderSide === "right") {
+          currentPlayer.x -= 0;
+          currentPlayer.y += velocity;
+        }
+        if (colliderSide === "back") {
           currentPlayer.x -= 0;
           currentPlayer.y += velocity;
         } else {
@@ -69,8 +88,12 @@ export class CharInputEvents {
         scene.data.set("diagonalColliderSide", "left_down");
       }
       if (isRightPressed && isDownPressed) {
-        if (colliderSide === "right") {
+        if (colliderSide === "left") {
           currentPlayer.x += 0;
+          currentPlayer.y += velocity;
+        }
+        if (colliderSide === "back") {
+          currentPlayer.x -= 0;
           currentPlayer.y += velocity;
         } else {
           currentPlayer.x += velocity;
@@ -85,10 +108,6 @@ export class CharInputEvents {
           inputPayload.collider = false;
           scene.data.set("isColliderPlayer", false);
         }
-
-        if (playerMoveState === "left_move") {
-          scene.data.set("colliderSide", "left");
-        }
       }
       if (isRightPressed && !isUpPressed && !isDownPressed) {
         if (beforePlayerMoveState !== ("right_move" || "right_idle")) {
@@ -96,20 +115,12 @@ export class CharInputEvents {
           inputPayload.collider = false;
           scene.data.set("isColliderPlayer", false);
         }
-
-        if (playerMoveState === "right_move") {
-          scene.data.set("colliderSide", "right");
-        }
       }
       if (isUpPressed && !isLeftPressed && !isRightPressed) {
         if (beforePlayerMoveState !== ("back_move" || "back_idle")) {
           currentPlayer.y -= velocity;
           inputPayload.collider = false;
           scene.data.set("isColliderPlayer", false);
-        }
-
-        if (playerMoveState === "front_move") {
-          scene.data.set("colliderSide", "back");
         }
 
         if (
@@ -122,15 +133,10 @@ export class CharInputEvents {
         }
       }
       if (isDownPressed && !isLeftPressed && !isRightPressed) {
-        // &&
-        // diagonalColliderSide !== ("left_down" || "right_down")
         if (beforePlayerMoveState !== ("front_move" || "front_idle")) {
           currentPlayer.y += velocity;
           inputPayload.collider = false;
           scene.data.set("isColliderPlayer", false);
-        }
-        if (playerMoveState === "back_move") {
-          scene.data.set("colliderSide", "front");
         }
 
         if (

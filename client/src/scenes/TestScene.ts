@@ -31,6 +31,10 @@ export default class TestScene extends Phaser.Scene {
     shiftDown: false,
     shiftUp: false,
     collider: false,
+    conflictAllowed: false,
+    colliderSide: "",
+    beforePlayerMoveState: "",
+    colliderDoneSide: "",
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -97,7 +101,7 @@ export default class TestScene extends Phaser.Scene {
           this.remoteRef.y = player.y;
         });
 
-        new Physics(this);
+        new Physics(this, this.inputPayload, this.room);
       } else {
         player.onChange(() => {
           entity.setData("serverX", player.x);

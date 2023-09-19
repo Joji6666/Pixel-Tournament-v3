@@ -1,5 +1,5 @@
 export default class Physics {
-  constructor(scene: any) {
+  constructor(scene: any, inputPayload, room) {
     const players = scene.data.get("players");
     const player = scene.data.get("player");
     scene.physics.add.collider(
@@ -20,14 +20,18 @@ export default class Physics {
         if (Math.abs(dx) > Math.abs(dy)) {
           if (dx > 0) {
             scene.data.set("colliderSide", "right");
+            inputPayload.colliderSide = "right";
           } else {
             scene.data.set("colliderSide", "left");
+            inputPayload.colliderSide = "left";
           }
         } else {
           if (dy > 0) {
             scene.data.set("colliderSide", "back");
+            inputPayload.colliderSide = "back";
           } else {
             scene.data.set("colliderSide", "front");
+            inputPayload.colliderSide = "front";
           }
         }
 
@@ -35,6 +39,9 @@ export default class Physics {
         scene.data.set("isColliderPlayer", true);
         scene.data.set("beforePlayerMoveState", playerMoveState);
         scene.inputPayload.collider = true;
+        scene.inputPayload.beforePlayerMoveState = playerMoveState;
+
+        room.send("input", inputPayload);
       },
       null,
       scene

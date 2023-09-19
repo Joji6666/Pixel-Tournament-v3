@@ -10,6 +10,10 @@ export interface InputPayloadInterface {
   shiftDown: boolean;
   shiftUp: boolean;
   collider: boolean;
+  conflictAllowed: boolean;
+  colliderSide: string;
+  beforePlayerMoveState: string;
+  colliderDoneSide: string;
 }
 
 export type CurrentPlayerType =

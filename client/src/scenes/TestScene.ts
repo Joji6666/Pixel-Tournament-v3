@@ -77,8 +77,8 @@ export default class TestScene extends Phaser.Scene {
       const entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody = players
         .create(player.x, player.y, `char_front`)
         .setScale(2);
-      entity.body.setSize(28, 35);
-      entity.body.setOffset(17, 12);
+      entity.body.setSize(18, 30);
+      entity.body.setOffset(22.5, 14);
       entity.body.immovable = true;
       entity.setCollideWorldBounds(true);
       // const entity = this.physics.add

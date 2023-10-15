@@ -35,6 +35,8 @@ export default class TestScene extends Phaser.Scene {
     colliderSide: "",
     beforePlayerMoveState: "",
     colliderDoneSide: "",
+    playerX: 0,
+    playerY: 0,
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -93,7 +95,12 @@ export default class TestScene extends Phaser.Scene {
       if (sessionId === this.room.sessionId) {
         this.currentPlayer = entity;
 
-        this.remoteRef = this.add.rectangle(0, 0, entity.width, entity.height);
+        this.remoteRef = this.add.rectangle(
+          0,
+          0,
+          entity.width - 20,
+          entity.height - 10
+        );
         this.remoteRef.setStrokeStyle(1, 0xff0000);
 
         player.onChange(() => {

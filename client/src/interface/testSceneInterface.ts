@@ -14,6 +14,8 @@ export interface InputPayloadInterface {
   colliderSide: string;
   beforePlayerMoveState: string;
   colliderDoneSide: string;
+  playerX: number;
+  playerY: number;
 }
 
 export type CurrentPlayerType =

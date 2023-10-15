@@ -56,5 +56,37 @@ export default class PreloadCharSprite {
       frameWidth: 64,
       frameHeight: 64,
     });
+    scene.load.spritesheet(
+      `char_sword_draw_front`,
+      "assets/char/sword_draw_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_draw_left`,
+      "assets/char/sword_draw_left.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_draw_right`,
+      "assets/char/sword_draw_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_draw_back`,
+      "assets/char/sword_draw_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
   }
 }

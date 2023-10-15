@@ -9,6 +9,8 @@ import {
   CurrentPlayerType,
   InputPayloadInterface,
 } from "../interface/testSceneInterface";
+import PreloadWeaponSprite from "../weapon/PreloadWeaponSprite";
+import WeaponAnimations from "../weapon/WeaponAnimations";
 
 export default class TestScene extends Phaser.Scene {
   constructor() {
@@ -45,6 +47,7 @@ export default class TestScene extends Phaser.Scene {
 
   preload() {
     new PreloadCharSprite(this);
+    new PreloadWeaponSprite(this);
     this.cursorKeys = this.input.keyboard.createCursorKeys();
   }
 
@@ -131,6 +134,27 @@ export default class TestScene extends Phaser.Scene {
     });
 
     new CharAnimations(this);
+    new WeaponAnimations(this);
+
+    this.input.keyboard.on("keyup-P", () => {
+      const player = this.data.get("player");
+      const sword = this.physics.add
+        .sprite(player.x, player.y, `sword_front`)
+        .setScale(2);
+      player.depth = 2;
+      sword.depth = 1;
+
+      sword.anims.play("sword_draw_front", true);
+      player.anims.play("char_sword_draw_front", true);
+
+      player.on("animationcomplete-char_sword_draw_front", () => {
+        player.anims.play("char_front", true);
+      });
+
+      sword.on("animationcomplete-sword_draw_front", () => {
+        sword.anims.play("sword_front", true);
+      });
+    });
   }
 
   update(time: number, delta: number): void {

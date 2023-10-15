@@ -144,5 +144,53 @@ export default class CharAnimations {
 
       repeat: -1,
     });
+    scene.anims.create({
+      key: `char_sword_draw_front`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_draw_front`, {
+        start: 0,
+        end: 2,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+    scene.anims.create({
+      key: `char_sword_draw_left`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_draw_left`, {
+        start: 0,
+        end: 2,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+    scene.anims.create({
+      key: `char_sword_draw_right`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_draw_right`, {
+        start: 0,
+        end: 2,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+    scene.anims.create({
+      key: `char_sword_draw_left`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_draw_left`, {
+        start: 0,
+        end: 2,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
   }
 }

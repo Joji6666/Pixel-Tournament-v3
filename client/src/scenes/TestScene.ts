@@ -8,9 +8,11 @@ import Physics from "../addons/Physics";
 import {
   CurrentPlayerType,
   InputPayloadInterface,
+  PlayerStatusInterface,
 } from "../interface/testSceneInterface";
 import PreloadWeaponSprite from "../weapon/PreloadWeaponSprite";
 import WeaponAnimations from "../weapon/WeaponAnimations";
+import { KeyDownEvents } from "../addons/KeyDownEvents";
 
 export default class TestScene extends Phaser.Scene {
   constructor() {
@@ -39,6 +41,10 @@ export default class TestScene extends Phaser.Scene {
     colliderDoneSide: "",
     playerX: 0,
     playerY: 0,
+  };
+
+  playerStatus: PlayerStatusInterface = {
+    weapon: "hand",
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -118,6 +124,7 @@ export default class TestScene extends Phaser.Scene {
           entity.setData("serverY", player.y);
           entity.setData("serverMoveState", player.moveState);
           entity.setData("serverIsRunOn", player.isRunOn);
+          entity.setData("serverPlayerStatusWeapon", player.playerStatusWeapon);
         });
       }
     });
@@ -136,25 +143,7 @@ export default class TestScene extends Phaser.Scene {
     new CharAnimations(this);
     new WeaponAnimations(this);
 
-    this.input.keyboard.on("keyup-P", () => {
-      const player = this.data.get("player");
-      const sword = this.physics.add
-        .sprite(player.x, player.y, `sword_front`)
-        .setScale(2);
-      player.depth = 2;
-      sword.depth = 1;
-
-      sword.anims.play("sword_draw_front", true);
-      player.anims.play("char_sword_draw_front", true);
-
-      player.on("animationcomplete-char_sword_draw_front", () => {
-        player.anims.play("char_front", true);
-      });
-
-      sword.on("animationcomplete-sword_draw_front", () => {
-        sword.anims.play("sword_front", true);
-      });
-    });
+    new KeyDownEvents(this, this.playerStatus, this.room, this.playerEntities);
   }
 
   update(time: number, delta: number): void {
@@ -169,7 +158,8 @@ export default class TestScene extends Phaser.Scene {
       this.cursorKeys,
       this.room,
       this.currentPlayer,
-      this.playerEntities
+      this.playerEntities,
+      this.playerStatus
     );
   }
 }

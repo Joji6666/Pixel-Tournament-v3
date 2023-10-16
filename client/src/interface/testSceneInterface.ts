@@ -18,5 +18,9 @@ export interface InputPayloadInterface {
   playerY: number;
 }
 
+export interface PlayerStatusInterface {
+  weapon: string;
+}
+
 export type CurrentPlayerType =
   Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;

@@ -152,7 +152,7 @@ export default class WeaponAnimations {
         end: 2,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });
@@ -164,7 +164,7 @@ export default class WeaponAnimations {
         end: 2,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });
@@ -176,7 +176,7 @@ export default class WeaponAnimations {
         end: 2,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });
@@ -188,7 +188,7 @@ export default class WeaponAnimations {
         end: 2,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });

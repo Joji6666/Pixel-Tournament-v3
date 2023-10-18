@@ -13,16 +13,17 @@ export class CharInputEvents {
     playerEntities,
     playerStatus
   ) {
-    const velocity = 2;
+    let velocity = 2;
     scene.data.set("velocity", 2);
 
     const isColliderPlayer = scene.data.get("isColliderPlayer");
-    const playerMoveState = scene.data.get("playerMoveState");
-    const beforePlayerMoveState = scene.data.get("beforePlayerMoveState");
     const colliderSide = scene.data.get("colliderSide");
-    const weapon = playerStatus.weapon;
-    const colliderDoneSide = scene.data.get("colliderDoneSide");
     const players = scene.data.get("players");
+    const weapon = playerStatus.weapon;
+
+    if (weapon !== "hand") {
+      velocity = 1.5;
+    }
 
     inputPayload.left = cursorKeys.left.isDown;
     inputPayload.right = cursorKeys.right.isDown;
@@ -269,35 +270,6 @@ export class CharInputEvents {
     wasUpPressed = isUpPressed;
     wasDownPressed = isDownPressed;
 
-    // weapon
-
-    if (weapon !== "hand") {
-      const equippedEquipment = scene.data.get(weapon);
-      const playerAnim = currentPlayer.anims.currentAnim.key;
-
-      if (playerAnim.includes("back")) {
-        equippedEquipment.depth = 2;
-        currentPlayer.depth = 1;
-      } else {
-        equippedEquipment.depth = 1;
-        currentPlayer.depth = 2;
-      }
-
-      let animationName = playerAnim.replace("char", "");
-
-      if (animationName.includes(playerStatus.weapon)) {
-        animationName = playerAnim.replace(`char_${playerStatus.weapon}`, "");
-      }
-
-      equippedEquipment.anims.play(
-        `${playerStatus.weapon}${animationName}`,
-        true
-      );
-
-      equippedEquipment.x = currentPlayer.x;
-      equippedEquipment.y = currentPlayer.y;
-    }
-
     for (let sessionId in playerEntities) {
       // do not interpolate the current player
       if (sessionId === room.sessionId) {
@@ -316,54 +288,6 @@ export class CharInputEvents {
 
       entity.x = Phaser.Math.Linear(entity.x, serverX, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, serverY, 0.2);
-
-      if (serverPlayerStatusWeapon) {
-        const isEntityWeapon = scene.data.get(`${sessionId}entityWeapon`);
-        if (!isEntityWeapon) {
-          const entityWeapon = scene.physics.add
-            .sprite(entity.x, entity.y, `sword_front`)
-            .setScale(2);
-          scene.data.set(`${sessionId}entityWeapon`, entityWeapon);
-          entity.anims.play("char_sword_draw_front", true);
-
-          entity.on("animationcomplete-char_sword_draw_front", () => {
-            entity.anims.play("char_front", true);
-          });
-        }
-      }
-
-      if (serverPlayerStatusWeapon) {
-        const entityWeapon = scene.data.get(`${sessionId}entityWeapon`);
-
-        if (entity) {
-          const entityAnim = entity.anims.currentAnim?.key;
-
-          if (entityAnim.includes("back")) {
-            entityWeapon.depth = 2;
-            entity.depth = 1;
-          } else {
-            entityWeapon.depth = 1;
-            entity.depth = 2;
-          }
-
-          let animationName = entityAnim.replace("char", "");
-
-          if (animationName.includes(serverPlayerStatusWeapon)) {
-            animationName = entityAnim.replace(
-              `char_${serverPlayerStatusWeapon}`,
-              ""
-            );
-          }
-
-          entityWeapon.anims.play(
-            `${serverPlayerStatusWeapon}${animationName}`,
-            true
-          );
-        }
-
-        entityWeapon.x = entity.x;
-        entityWeapon.y = entity.y;
-      }
 
       if (serverMoveState === "left_idle") {
         entity.anims.play("char_left", true);

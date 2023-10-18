@@ -3,8 +3,8 @@ import PreloadCharSprite from "../char/PreloadCharSprite";
 import CharAnimations from "../char/CharAnimations";
 
 import { Client, Room } from "colyseus.js";
-import { CharInputEvents } from "../addons/CharInputEvents";
-import Physics from "../addons/Physics";
+import { CharInputEvents } from "../addons/char/CharInputEvents";
+import Physics from "../addons/char/Physics";
 import {
   CurrentPlayerType,
   InputPayloadInterface,
@@ -12,13 +12,15 @@ import {
 } from "../interface/testSceneInterface";
 import PreloadWeaponSprite from "../weapon/PreloadWeaponSprite";
 import WeaponAnimations from "../weapon/WeaponAnimations";
-import { KeyDownEvents } from "../addons/KeyDownEvents";
+
+import { WeaponUpdateEvents } from "../addons/weapon/WeaponUpdateEvents";
+import { KeyDownEvents } from "../addons/char/KeyDownEvents";
 
 export default class TestScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
-  client = new Client("ws://localhost:2567");
+  client = new Client("ws://192.168.0.151");
   room: Room;
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -92,10 +94,7 @@ export default class TestScene extends Phaser.Scene {
       entity.body.setOffset(22.5, 14);
       entity.body.immovable = true;
       entity.setCollideWorldBounds(true);
-      // const entity = this.physics.add
-      //   .sprite(player.x, player.y, `char_front`)
-      //   .setName("player")
-      //   .setScale(2);
+
       this.data.set("player", entity);
       this.data.set("playerMoveState", "front");
 
@@ -153,6 +152,16 @@ export default class TestScene extends Phaser.Scene {
     }
 
     new CharInputEvents(
+      this,
+      this.inputPayload,
+      this.cursorKeys,
+      this.room,
+      this.currentPlayer,
+      this.playerEntities,
+      this.playerStatus
+    );
+
+    new WeaponUpdateEvents(
       this,
       this.inputPayload,
       this.cursorKeys,

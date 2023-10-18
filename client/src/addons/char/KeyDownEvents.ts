@@ -1,5 +1,5 @@
 import { Room } from "colyseus.js";
-import type { PlayerStatusInterface } from "../interface/testSceneInterface";
+import type { PlayerStatusInterface } from "../../interface/testSceneInterface";
 
 export class KeyDownEvents {
   constructor(

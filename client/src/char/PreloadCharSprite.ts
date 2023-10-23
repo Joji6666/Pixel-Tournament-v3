@@ -58,7 +58,7 @@ export default class PreloadCharSprite {
     });
     scene.load.spritesheet(
       `char_sword_draw_front`,
-      "assets/char/sword_draw_front.png",
+      "assets/char/weapon/sword/sword_draw_front.png",
       {
         frameWidth: 64,
         frameHeight: 64,
@@ -66,7 +66,7 @@ export default class PreloadCharSprite {
     );
     scene.load.spritesheet(
       `char_sword_draw_left`,
-      "assets/char/sword_draw_left.png",
+      "assets/char/weapon/sword/sword_draw_left.png",
       {
         frameWidth: 64,
         frameHeight: 64,
@@ -74,7 +74,7 @@ export default class PreloadCharSprite {
     );
     scene.load.spritesheet(
       `char_sword_draw_right`,
-      "assets/char/sword_draw_right.png",
+      "assets/char/weapon/sword/sword_draw_right.png",
       {
         frameWidth: 64,
         frameHeight: 64,
@@ -82,7 +82,71 @@ export default class PreloadCharSprite {
     );
     scene.load.spritesheet(
       `char_sword_draw_back`,
-      "assets/char/sword_draw_back.png",
+      "assets/char/weapon/sword/sword_draw_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_idle_front`,
+      "assets/char/weapon/sword/sword_idle_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_idle_back`,
+      "assets/char/weapon/sword/sword_idle_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_idle_right`,
+      "assets/char/weapon/sword/sword_idle_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_idle_left`,
+      "assets/char/weapon/sword/sword_idle_left.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_move_front`,
+      "assets/char/weapon/sword/sword_move_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_move_back`,
+      "assets/char/weapon/sword/sword_move_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_move_right`,
+      "assets/char/weapon/sword/sword_move_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `char_sword_move_left`,
+      "assets/char/weapon/sword/sword_move_left.png",
       {
         frameWidth: 64,
         frameHeight: 64,

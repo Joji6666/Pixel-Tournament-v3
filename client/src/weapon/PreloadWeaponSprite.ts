@@ -88,5 +88,69 @@ export default class PreloadWeaponSprite {
         frameHeight: 64,
       }
     );
+    scene.load.spritesheet(
+      `sword_idle_front`,
+      "assets/weapon/sword/sword_idle_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_idle_back`,
+      "assets/weapon/sword/sword_idle_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_idle_right`,
+      "assets/weapon/sword/sword_idle_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_idle_left`,
+      "assets/weapon/sword/sword_idle_left.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_move_front`,
+      "assets/weapon/sword/sword_move_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_move_back`,
+      "assets/weapon/sword/sword_move_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_move_right`,
+      "assets/weapon/sword/sword_move_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_move_left`,
+      "assets/weapon/sword/sword_move_left.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
   }
 }

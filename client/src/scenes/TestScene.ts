@@ -20,7 +20,7 @@ export default class TestScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
-  client = new Client("ws://192.168.0.151");
+  client = new Client("ws://localhost:2567");
   room: Room;
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;

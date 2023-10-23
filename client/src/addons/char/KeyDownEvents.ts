@@ -27,11 +27,11 @@ export class KeyDownEvents {
       player.anims.play("char_sword_draw_front", true);
 
       player.on("animationcomplete-char_sword_draw_front", () => {
-        player.anims.play("char_front", true);
+        player.anims.play("char_sword_idle_front", true);
       });
 
       sword.on("animationcomplete-sword_draw_front", () => {
-        sword.anims.play("sword_front", true);
+        sword.anims.play("sword_idle_front", true);
       });
 
       room.send("weapon", playerStatus.weapon);

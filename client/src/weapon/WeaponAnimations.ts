@@ -192,5 +192,103 @@ export default class WeaponAnimations {
 
       repeat: 0,
     });
+
+    scene.anims.create({
+      key: `sword_idle_front`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_idle_front`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: `sword_idle_back`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_idle_back`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: `sword_idle_right`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_idle_right`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: `sword_idle_left`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_idle_left`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: `sword_move_front`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_move_front`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: `sword_move_back`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_move_back`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: `sword_move_right`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_move_right`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: `sword_move_left`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_move_left`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 10,
+
+      repeat: -1,
+    });
   }
 }

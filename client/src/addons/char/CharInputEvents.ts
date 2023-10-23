@@ -153,7 +153,14 @@ export class CharInputEvents {
         }
 
         if (!inputPayload.down && !inputPayload.up) {
-          currentPlayer.anims.play("char_left_walk", true);
+          if (playerStatus.weapon !== "hand") {
+            currentPlayer.anims.play(
+              `char_${playerStatus.weapon}_move_left`,
+              true
+            );
+          } else {
+            currentPlayer.anims.play("char_left_walk", true);
+          }
         }
       }
       scene.data.set("playerMoveState", "left_move");
@@ -163,7 +170,12 @@ export class CharInputEvents {
       inputPayload.upUp = false;
       inputPayload.downUp = false;
     } else if (wasLeftPressed) {
-      currentPlayer.anims.play("char_left", true);
+      if (playerStatus.weapon !== "hand") {
+        currentPlayer.anims.play(`char_${playerStatus.weapon}_idle_left`, true);
+      } else {
+        currentPlayer.anims.play("char_left", true);
+      }
+
       inputPayload.leftUp = true;
       scene.data.set("playerMoveState", "left_idle");
       wasLeftPressed = false;
@@ -188,7 +200,14 @@ export class CharInputEvents {
         }
 
         if (!inputPayload.down && !inputPayload.up) {
-          currentPlayer.anims.play("char_right_walk", true);
+          if (playerStatus.weapon !== "hand") {
+            currentPlayer.anims.play(
+              `char_${playerStatus.weapon}_move_right`,
+              true
+            );
+          } else {
+            currentPlayer.anims.play("char_right_walk", true);
+          }
         }
       }
       wasRightPressed = true;
@@ -198,7 +217,15 @@ export class CharInputEvents {
       inputPayload.downUp = false;
       scene.data.set("playerMoveState", "right_move");
     } else if (wasRightPressed) {
-      currentPlayer.anims.play("char_right", true);
+      if (playerStatus.weapon !== "hand") {
+        currentPlayer.anims.play(
+          `char_${playerStatus.weapon}_idle_right`,
+          true
+        );
+      } else {
+        currentPlayer.anims.play("char_right", true);
+      }
+
       inputPayload.rightUp = true;
       scene.data.set("playerMoveState", "right_idle");
       wasRightPressed = false;
@@ -219,7 +246,14 @@ export class CharInputEvents {
           scene.data.set("colliderDoneSide", "back");
           inputPayload.colliderDoneSide = "back";
         }
-        currentPlayer.anims.play("char_back_walk", true);
+        if (playerStatus.weapon !== "hand") {
+          currentPlayer.anims.play(
+            `char_${playerStatus.weapon}_move_back`,
+            true
+          );
+        } else {
+          currentPlayer.anims.play("char_back_walk", true);
+        }
       }
       inputPayload.upUp = false;
       inputPayload.rightUp = false;
@@ -228,7 +262,12 @@ export class CharInputEvents {
       scene.data.set("playerMoveState", "back_move");
       wasUpPressed = true;
     } else if (wasUpPressed) {
-      currentPlayer.anims.play("char_back", true);
+      if (playerStatus.weapon !== "hand") {
+        currentPlayer.anims.play(`char_${playerStatus.weapon}_idle_back`, true);
+      } else {
+        currentPlayer.anims.play("char_back", true);
+      }
+
       inputPayload.upUp = true;
       scene.data.set("playerMoveState", "back_idle");
       wasUpPressed = false;
@@ -248,7 +287,14 @@ export class CharInputEvents {
           scene.data.set("colliderDoneSide", "front");
           inputPayload.colliderDoneSide = "front";
         }
-        currentPlayer.anims.play("char_front_walk", true);
+        if (playerStatus.weapon !== "hand") {
+          currentPlayer.anims.play(
+            `char_${playerStatus.weapon}_move_front`,
+            true
+          );
+        } else {
+          currentPlayer.anims.play("char_front_walk", true);
+        }
       }
       inputPayload.downUp = false;
       inputPayload.rightUp = false;
@@ -257,7 +303,15 @@ export class CharInputEvents {
       scene.data.set("playerMoveState", "front_move");
       wasDownPressed = true;
     } else if (wasDownPressed) {
-      currentPlayer.anims.play("char_front", true);
+      if (playerStatus.weapon !== "hand") {
+        currentPlayer.anims.play(
+          `char_${playerStatus.weapon}_idle_front`,
+          true
+        );
+      } else {
+        currentPlayer.anims.play("char_front", true);
+      }
+
       inputPayload.downUp = true;
       scene.data.set("playerMoveState", "front_idle");
       wasDownPressed = false;

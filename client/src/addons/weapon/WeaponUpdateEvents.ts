@@ -18,39 +18,32 @@ export class WeaponUpdateEvents {
 
       // non draw
 
-      if (playerAnim.includes("back")) {
-        equippedEquipment.depth = 2;
-        currentPlayer.depth = 1;
-      }
-
-      if (playerAnim.includes("right")) {
-        equippedEquipment.depth = 2;
-        currentPlayer.depth = 1;
-      }
-
-      if (playerAnim.includes("left")) {
-        equippedEquipment.depth = 2;
-        currentPlayer.depth = 1;
-      }
-
-      if (playerAnim.includes("front")) {
-        equippedEquipment.depth = 1;
-        currentPlayer.depth = 2;
+      if (!playerStatus.isWeaponDraw) {
+        if (playerAnim.includes("back")) {
+          equippedEquipment.depth = 2;
+          currentPlayer.depth = 1;
+        } else {
+          equippedEquipment.depth = 1;
+          currentPlayer.depth = 2;
+        }
       }
 
       let animationName = playerAnim.replace("char", "");
 
       // draw
-      if (animationName.includes("idle")) {
-        equippedEquipment.depth = 2;
-        currentPlayer.depth = 1;
-      }
 
-      // move
+      if (playerStatus.isWeaponDraw) {
+        if (animationName.includes("idle")) {
+          equippedEquipment.depth = 2;
+          currentPlayer.depth = 1;
+        }
 
-      if (animationName.includes("move")) {
-        equippedEquipment.depth = 2;
-        currentPlayer.depth = 1;
+        // move
+
+        if (animationName.includes("move")) {
+          equippedEquipment.depth = 2;
+          currentPlayer.depth = 1;
+        }
       }
 
       if (animationName.includes(playerStatus.weapon)) {

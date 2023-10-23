@@ -47,6 +47,7 @@ export default class TestScene extends Phaser.Scene {
 
   playerStatus: PlayerStatusInterface = {
     weapon: "hand",
+    isWeaponDraw: false,
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;

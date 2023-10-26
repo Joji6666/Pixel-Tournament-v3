@@ -135,6 +135,7 @@ export class CharInputEvents {
     // not collider
 
     if (isLeftPressed) {
+      scene.data.set("playerSide", "left");
       if (inputPayload.shiftDown) {
         if (!inputPayload.down && !inputPayload.up) {
           currentPlayer.anims.play("char_left_run", true);
@@ -182,6 +183,7 @@ export class CharInputEvents {
     }
 
     if (isRightPressed) {
+      scene.data.set("playerSide", "right");
       if (inputPayload.shiftDown) {
         if (!inputPayload.down && !inputPayload.up) {
           currentPlayer.anims.play("char_right_run", true);
@@ -232,6 +234,7 @@ export class CharInputEvents {
     }
 
     if (isUpPressed) {
+      scene.data.set("playerSide", "back");
       if (inputPayload.shiftDown) {
         currentPlayer.anims.play("char_back_run", true);
 
@@ -273,6 +276,7 @@ export class CharInputEvents {
       wasUpPressed = false;
     }
     if (isDownPressed) {
+      scene.data.set("playerSide", "front");
       if (inputPayload.shiftDown) {
         currentPlayer.anims.play("char_front_run", true);
 

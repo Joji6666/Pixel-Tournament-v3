@@ -98,6 +98,7 @@ export default class TestScene extends Phaser.Scene {
 
       this.data.set("player", entity);
       this.data.set("playerMoveState", "front");
+      this.data.set("playerSide", "front");
 
       this.playerEntities[sessionId] = entity;
 

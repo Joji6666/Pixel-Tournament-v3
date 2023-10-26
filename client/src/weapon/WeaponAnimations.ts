@@ -157,6 +157,18 @@ export default class WeaponAnimations {
       repeat: 0,
     });
     scene.anims.create({
+      key: `sword_draw_back`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_draw_back`, {
+        start: 0,
+        end: 2,
+      }),
+
+      frameRate: 10,
+
+      repeat: 0,
+    });
+    scene.anims.create({
       key: `sword_draw_left`,
 
       frames: scene.anims.generateFrameNumbers(`sword_draw_left`, {
@@ -289,6 +301,60 @@ export default class WeaponAnimations {
       frameRate: 10,
 
       repeat: -1,
+    });
+
+    // attack
+
+    scene.anims.create({
+      key: `sword_attack_front`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_attack_front`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: `sword_attack_back`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_attack_back`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: `sword_attack_right`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_attack_right`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: `sword_attack_left`,
+
+      frames: scene.anims.generateFrameNumbers(`sword_attack_left`, {
+        start: 0,
+        end: 3,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
     });
   }
 }

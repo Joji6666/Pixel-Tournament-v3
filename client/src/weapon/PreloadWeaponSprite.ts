@@ -152,5 +152,40 @@ export default class PreloadWeaponSprite {
         frameHeight: 64,
       }
     );
+
+    // attack
+
+    scene.load.spritesheet(
+      `sword_attack_front`,
+      "assets/weapon/sword/sword_attack_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_attack_back`,
+      "assets/weapon/sword/sword_attack_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_attack_right`,
+      "assets/weapon/sword/sword_attack_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+    scene.load.spritesheet(
+      `sword_attack_left`,
+      "assets/weapon/sword/sword_attack_left.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
   }
 }

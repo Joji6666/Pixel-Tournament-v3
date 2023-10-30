@@ -72,6 +72,7 @@ export class WeaponUpdateEvents {
         serverMoveState,
         serverIsRunOn,
         serverPlayerStatusWeapon,
+        serverPlayerStatusWeaponIsDraw,
       } = entity.data.values;
 
       if (serverPlayerStatusWeapon) {
@@ -87,15 +88,30 @@ export class WeaponUpdateEvents {
         if (entity) {
           const entityAnim = entity.anims.currentAnim?.key;
 
-          if (entityAnim.includes("back")) {
-            entityWeapon.depth = 2;
-            entity.depth = 1;
-          } else {
-            entityWeapon.depth = 1;
-            entity.depth = 2;
+          if (!serverPlayerStatusWeaponIsDraw) {
+            if (entityAnim.includes("back")) {
+              entityWeapon.depth = 2;
+              entity.depth = 1;
+            } else {
+              entityWeapon.depth = 1;
+              entity.depth = 2;
+            }
           }
-
           let animationName = entityAnim.replace("char", "");
+
+          if (serverPlayerStatusWeaponIsDraw) {
+            if (animationName.includes("idle")) {
+              entityWeapon.depth = 2;
+              entity.depth = 1;
+            }
+
+            // move
+
+            if (animationName.includes("move")) {
+              entityWeapon.depth = 2;
+              entity.depth = 1;
+            }
+          }
 
           if (animationName.includes(serverPlayerStatusWeapon)) {
             animationName = entityAnim.replace(

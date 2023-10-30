@@ -126,6 +126,10 @@ export default class TestScene extends Phaser.Scene {
           entity.setData("serverMoveState", player.moveState);
           entity.setData("serverIsRunOn", player.isRunOn);
           entity.setData("serverPlayerStatusWeapon", player.playerStatusWeapon);
+          entity.setData(
+            "serverPlayerStatusWeaponIsDraw",
+            player.playerStatusWeaponIsDraw
+          );
         });
       }
     });

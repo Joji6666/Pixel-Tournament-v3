@@ -45,7 +45,7 @@ export class KeyDownEvents {
         });
       }
 
-      room.send("weapon", playerStatus.weapon);
+      room.send("weapon", playerStatus);
     });
 
     scene.input.keyboard.on("keydown-SPACE", () => {

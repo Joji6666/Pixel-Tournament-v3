@@ -342,50 +342,101 @@ export class CharInputEvents {
         serverMoveState,
         serverIsRunOn,
         serverPlayerStatusWeapon,
+        serverPlayerStatusWeaponIsDraw,
       } = entity.data.values;
 
       entity.x = Phaser.Math.Linear(entity.x, serverX, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, serverY, 0.2);
 
       if (serverMoveState === "left_idle") {
-        entity.anims.play("char_left", true);
+        if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+          entity.anims.play(`char_${serverPlayerStatusWeapon}_idle_left`, true);
+        } else {
+          entity.anims.play("char_left", true);
+        }
       }
       if (serverMoveState === "right_idle") {
-        entity.anims.play("char_right", true);
+        if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+          entity.anims.play(
+            `char_${serverPlayerStatusWeapon}_idle_right`,
+            true
+          );
+        } else {
+          entity.anims.play("char_right", true);
+        }
       }
       if (serverMoveState === "back_idle") {
-        entity.anims.play("char_back", true);
+        if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+          entity.anims.play(`char_${serverPlayerStatusWeapon}_idle_back`, true);
+        } else {
+          entity.anims.play("char_back", true);
+        }
       }
       if (serverMoveState === "front_idle") {
-        entity.anims.play("char_front", true);
+        if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+          entity.anims.play(
+            `char_${serverPlayerStatusWeapon}_idle_front`,
+            true
+          );
+        } else {
+          entity.anims.play("char_front", true);
+        }
       }
 
       if (serverMoveState === "left_walk") {
         if (serverIsRunOn) {
           entity.anims.play("char_left_run", true);
         } else {
-          entity.anims.play("char_left_walk", true);
+          if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+            entity.anims.play(
+              `char_${serverPlayerStatusWeapon}_move_left`,
+              true
+            );
+          } else {
+            entity.anims.play("char_left_walk", true);
+          }
         }
       }
       if (serverMoveState === "right_walk") {
         if (serverIsRunOn) {
           entity.anims.play("char_right_run", true);
         } else {
-          entity.anims.play("char_right_walk", true);
+          if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+            entity.anims.play(
+              `char_${serverPlayerStatusWeapon}_move_right`,
+              true
+            );
+          } else {
+            entity.anims.play("char_left_right", true);
+          }
         }
       }
       if (serverMoveState === "back_walk") {
         if (serverIsRunOn) {
           entity.anims.play("char_back_run", true);
         } else {
-          entity.anims.play("char_back_walk", true);
+          if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+            entity.anims.play(
+              `char_${serverPlayerStatusWeapon}_move_back`,
+              true
+            );
+          } else {
+            entity.anims.play("char_back_walk", true);
+          }
         }
       }
       if (serverMoveState === "front_walk") {
         if (serverIsRunOn) {
           entity.anims.play("char_front_run", true);
         } else {
-          entity.anims.play("char_front_walk", true);
+          if (serverPlayerStatusWeapon && serverPlayerStatusWeaponIsDraw) {
+            entity.anims.play(
+              `char_${serverPlayerStatusWeapon}_move_front`,
+              true
+            );
+          } else {
+            entity.anims.play("char_front_walk", true);
+          }
         }
       }
     }

@@ -48,6 +48,7 @@ export default class TestScene extends Phaser.Scene {
   playerStatus: PlayerStatusInterface = {
     weapon: "hand",
     isWeaponDraw: false,
+    isAttack: false,
   };
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -99,6 +100,7 @@ export default class TestScene extends Phaser.Scene {
       this.data.set("player", entity);
       this.data.set("playerMoveState", "front");
       this.data.set("playerSide", "front");
+      this.data.set("currentSessionId", sessionId);
 
       this.playerEntities[sessionId] = entity;
 
@@ -130,6 +132,11 @@ export default class TestScene extends Phaser.Scene {
             "serverPlayerStatusWeaponIsDraw",
             player.playerStatusWeaponIsDraw
           );
+          entity.setData(
+            "serverPlayerStatusWeaponIsAttack",
+            player.playerStatusWeaponIsAttack
+          );
+          entity.setData("sessionId", sessionId);
         });
       }
     });

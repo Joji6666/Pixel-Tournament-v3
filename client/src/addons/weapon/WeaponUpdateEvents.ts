@@ -73,6 +73,7 @@ export class WeaponUpdateEvents {
         serverIsRunOn,
         serverPlayerStatusWeapon,
         serverPlayerStatusWeaponIsDraw,
+        serverPlayerStatusWeaponIsAttack,
       } = entity.data.values;
 
       if (serverPlayerStatusWeapon) {

@@ -19,6 +19,8 @@ export class KeyDownEvents {
           .sprite(player.x, player.y, `sword_front`)
           .setScale(2);
         scene.data.set("sword", sword);
+        sword.body.setSize(58, 60);
+
         playerStatus.weapon = "sword";
       }
 

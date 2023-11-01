@@ -21,6 +21,7 @@ export interface InputPayloadInterface {
 export interface PlayerStatusInterface {
   weapon: string;
   isWeaponDraw: boolean;
+  isAttack: boolean;
 }
 
 export type CurrentPlayerType =

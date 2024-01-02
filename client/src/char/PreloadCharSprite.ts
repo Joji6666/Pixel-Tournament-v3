@@ -187,5 +187,41 @@ export default class PreloadCharSprite {
         frameHeight: 64,
       }
     );
+
+    scene.load.spritesheet(
+      `char_sword_hurt_left`,
+      "assets/char/weapon/sword/sword_hurt_left.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+
+    scene.load.spritesheet(
+      `char_sword_hurt_right`,
+      "assets/char/weapon/sword/sword_hurt_right.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+
+    scene.load.spritesheet(
+      `char_sword_hurt_front`,
+      "assets/char/weapon/sword/sword_hurt_front.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
+
+    scene.load.spritesheet(
+      `char_sword_hurt_back`,
+      "assets/char/weapon/sword/sword_hurt_back.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
   }
 }

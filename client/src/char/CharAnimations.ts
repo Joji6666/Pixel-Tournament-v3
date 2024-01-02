@@ -340,5 +340,57 @@ export default class CharAnimations {
 
       repeat: 0,
     });
+
+    scene.anims.create({
+      key: `char_sword_hurt_right`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_hurt_right`, {
+        start: 0,
+        end: 0,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: `char_sword_hurt_left`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_hurt_left`, {
+        start: 0,
+        end: 0,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: `char_sword_hurt_front`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_hurt_front`, {
+        start: 0,
+        end: 0,
+      }),
+
+      frameRate: 30,
+
+      repeat: 0,
+    });
+
+    scene.anims.create({
+      key: `char_sword_hurt_back`,
+
+      frames: scene.anims.generateFrameNumbers(`char_sword_hurt_back`, {
+        start: 0,
+        end: 0,
+      }),
+
+      frameRate: 1,
+
+      repeat: 0,
+    });
   }
 }

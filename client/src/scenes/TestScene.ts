@@ -16,15 +16,20 @@ import WeaponAnimations from "../weapon/WeaponAnimations";
 import { WeaponUpdateEvents } from "../addons/weapon/WeaponUpdateEvents";
 import { KeyDownEvents } from "../addons/char/KeyDownEvents";
 
+// Add Scene Class
 export default class TestScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
+
   client = new Client("ws://localhost:2567");
   room: Room;
+
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   } = {};
+
+  // inputs
   inputPayload: InputPayloadInterface = {
     left: false,
     right: false,
@@ -63,6 +68,8 @@ export default class TestScene extends Phaser.Scene {
 
   async create() {
     this.data.set("velocity", 2);
+
+    // on/off  Run
     this.input.keyboard.on("keydown-SHIFT", () => {
       if (!this.inputPayload.shiftDown) {
         this.inputPayload.shiftDown = true;

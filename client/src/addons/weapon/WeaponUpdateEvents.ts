@@ -15,6 +15,30 @@ export class WeaponUpdateEvents {
     if (weapon !== "hand") {
       const equippedEquipment = scene.data.get(weapon);
       const playerAnim = currentPlayer.anims.currentAnim.key;
+      const playerSide = scene.data.get("playerSide");
+
+      if (weapon === "sword") {
+        const sword = scene.data.get("sword");
+        if (playerSide === "left") {
+          sword.body.setSize(35, 30);
+          sword.body.setOffset(5, 15);
+        }
+
+        if (playerSide === "right") {
+          sword.body.setSize(35, 30);
+          sword.body.setOffset(23, 15);
+        }
+
+        if (playerSide === "front") {
+          sword.body.setSize(50, 50);
+          sword.body.setOffset(5, 15);
+        }
+
+        if (playerSide === "back") {
+          sword.body.setSize(50, 45);
+          sword.body.setOffset(5, -2);
+        }
+      }
 
       // non draw
 

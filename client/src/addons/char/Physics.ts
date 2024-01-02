@@ -2,6 +2,7 @@ export default class Physics {
   constructor(scene: any, inputPayload, room) {
     const players = scene.data.get("players");
     const player = scene.data.get("player");
+
     scene.physics.add.collider(
       players,
       player,

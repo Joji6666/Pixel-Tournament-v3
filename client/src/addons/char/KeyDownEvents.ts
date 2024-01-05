@@ -51,7 +51,7 @@ export class KeyDownEvents {
     });
 
     scene.input.keyboard.on("keydown-SPACE", () => {
-      playerAttack(scene, playerStatus, room);
+      playerAttack(scene, playerStatus, room, playerEntities);
     });
   }
 }

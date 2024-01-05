@@ -1,4 +1,4 @@
-export const playerAttack = (scene, playerStatus, room) => {
+export const playerAttack = (scene, playerStatus, room, playerEntities) => {
   const currentPlayer = scene.data.get("player");
   const playerSide = scene.data.get("playerSide");
   const players = scene.data.get("players");
@@ -8,18 +8,29 @@ export const playerAttack = (scene, playerStatus, room) => {
     const sword = scene.data.get("sword");
 
     players.children.entries.forEach((player) => {
-      // 플레이어의 위치 정보 가져오기
       const sessionId = player?.data?.values?.sessionId;
 
       if (sessionId && sessionId !== currentSessionId) {
         // 검의 영역에 들어왔는지 확인
 
         scene.physics.world.overlap(sword, player, (sword, player) => {
-          player.anims.play(`char_sword_hurt_front`, true);
-          player.on(`animationcomplete-char_sword_hurt_front`, () => {
-            setTimeout(() => {
-              player.anims.play(`char_sword_idle_front`, true);
-            }, 80);
+          let otherSide = "front";
+          if (playerSide === "left") {
+            otherSide = "right";
+          }
+          if (playerSide === "right") {
+            otherSide = "left";
+          }
+          if (playerSide === "front") {
+            otherSide = "back";
+          }
+          if (playerSide === "back") {
+            otherSide = "front";
+          }
+          const hurtAnim = `char_sword_hurt_${otherSide}`;
+          player.anims.play(hurtAnim, true);
+          player.on(`animationcomplete-char_sword_hurt_${otherSide}`, () => {
+            player.anims.play(`char_sword_idle_${otherSide}`, true);
           });
         });
       }

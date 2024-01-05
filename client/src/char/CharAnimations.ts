@@ -349,7 +349,7 @@ export default class CharAnimations {
         end: 0,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });
@@ -362,7 +362,7 @@ export default class CharAnimations {
         end: 0,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });
@@ -375,7 +375,7 @@ export default class CharAnimations {
         end: 0,
       }),
 
-      frameRate: 30,
+      frameRate: 10,
 
       repeat: 0,
     });
@@ -388,7 +388,7 @@ export default class CharAnimations {
         end: 0,
       }),
 
-      frameRate: 1,
+      frameRate: 10,
 
       repeat: 0,
     });

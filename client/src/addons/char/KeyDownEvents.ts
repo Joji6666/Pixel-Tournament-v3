@@ -14,11 +14,12 @@ export class KeyDownEvents {
     scene.input.keyboard.on("keydown-P", () => {
       const player = scene.data.get("player");
       const playerSide = scene.data.get("playerSide");
+      const currentSessionId = scene.data.get("currentSessionId");
       if (playerStatus.weapon === "hand") {
         const sword = scene.physics.add
           .sprite(player.x, player.y, `sword_front`)
           .setScale(2);
-        scene.data.set("sword", sword);
+        scene.data.set(`sword${currentSessionId}`, sword);
         sword.body.setSize(35, 30);
         sword.body.setOffset(5, 15);
         playerStatus.weapon = "sword";
@@ -26,13 +27,13 @@ export class KeyDownEvents {
 
       if (playerStatus.isWeaponDraw) {
         player.anims.play(`char_${playerSide}`, true);
-        const sword = scene.data.get("sword");
+        const sword = scene.data.get(`sword${currentSessionId}`);
         sword.anims.play(`sword_${playerSide}`, true);
         playerStatus.isWeaponDraw = false;
         player.depth = 2;
         sword.depth = 1;
       } else {
-        const sword = scene.data.get("sword");
+        const sword = scene.data.get(`sword${currentSessionId}`);
 
         playerStatus.isWeaponDraw = true;
         sword.anims.play(`sword_draw_${playerSide}`, true);

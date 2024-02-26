@@ -5,7 +5,7 @@ export const playerAttack = (scene, playerStatus, room, playerEntities) => {
   const currentSessionId = scene.data.get("currentSessionId");
 
   if (playerStatus.weapon !== "hand" && playerStatus.isWeaponDraw) {
-    const sword = scene.data.get("sword");
+    const sword = scene.data.get(`sword${currentSessionId}`);
 
     players.children.entries.forEach((player) => {
       const sessionId = player?.data?.values?.sessionId;

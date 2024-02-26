@@ -13,12 +13,12 @@ export class WeaponUpdateEvents {
     const weapon = playerStatus.weapon;
 
     if (weapon !== "hand") {
-      const equippedEquipment = scene.data.get(weapon);
       const playerAnim = currentPlayer.anims.currentAnim.key;
       const playerSide = scene.data.get("playerSide");
-
+      const currentSessionId = scene.data.get("currentSessionId");
+      const equippedEquipment = scene.data.get(`weapon${currentSessionId}`);
       if (weapon === "sword") {
-        const sword = scene.data.get("sword");
+        const sword = scene.data.get(`sword${currentSessionId}`);
         if (playerSide === "left") {
           sword.body.setSize(35, 30);
           sword.body.setOffset(5, 15);
